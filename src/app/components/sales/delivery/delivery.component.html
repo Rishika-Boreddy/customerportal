@@ -1,0 +1,102 @@
+<div class="delivery-container">
+  <div class="delivery-header enhanced-header">
+    <h2>📦 Delivery Details</h2>
+    <div class="header-controls">
+      <!-- Sorting Controls -->
+      <div class="sort-group">
+        <label for="sortField">Sort by:</label>
+        <select id="sortField" [(ngModel)]="sortFieldModel">
+          <option value="">-- Select Field --</option>
+          <option *ngFor="let field of fields" [value]="field.key">{{ field.label }}</option>
+        </select>
+        <ng-container *ngIf="sortFieldModel">
+          <button class="sort-btn" [class.active]="sortDirection==='asc'" (click)="setSortDirection('asc')">▲</button>
+          <button class="sort-btn" [class.active]="sortDirection==='desc'" (click)="setSortDirection('desc')">▼</button>
+          <button class="reset-btn" (click)="resetSort()">Reset</button>
+        </ng-container>
+      </div>
+      <!-- Filtering Controls -->
+      <div class="filter-group">
+        <label for="filterField">Filter:</label>
+        <select id="filterField" [(ngModel)]="filterFieldModel">
+          <option value="">-- Select Field --</option>
+          <option *ngFor="let field of fields" [value]="field.key">{{ field.label }}</option>
+        </select>
+        <input *ngIf="filterFieldModel" type="text" class="filter-input" placeholder="Enter value..." [(ngModel)]="filterValue" (input)="setFilterValue(filterValue)" />
+        <button *ngIf="filterFieldModel || filterValue" class="reset-btn" (click)="resetFilter()">Clear</button>
+      </div>
+      <button class="refresh-btn" (click)="refreshData()" [disabled]="loading">
+        <span *ngIf="!loading">🔄 Refresh</span>
+        <span *ngIf="loading">⏳ Loading...</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="loading" class="loading-container">
+    <div class="loader">
+      <div class="spinner"></div>
+      <p>Loading delivery data...</p>
+    </div>
+  </div>
+
+  <!-- Error Message -->
+  <div *ngIf="errorMessage" class="error-box">
+    <i class="fas fa-exclamation-circle"></i>
+    <span>{{ errorMessage }}</span>
+  </div>
+
+  <!-- Delivery Table -->
+  <div *ngIf="!loading && !errorMessage && displayedData.length > 0" class="table-container">
+    <table class="delivery-table">
+      <thead>
+        <tr>
+          <th>Delivery No</th>
+          <th>Item No</th>
+          <th>Material No</th>
+          <th>Description</th>
+          <th>Type</th>
+          <th>Delivery Date</th>
+          <th>Customer ID</th>
+          <th>Unit</th>
+          <th>Quantity</th>
+          <th>Net Value</th>
+          <th>Currency</th>
+          <th>Storage Loc</th>
+          <th>PO No</th>
+          <th>Billing Status</th>
+          <th>Shipping Point</th>
+          <th>Plant</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of displayedData; trackBy: trackByIndex">
+          <td>{{ item.Vbeln }}</td>
+          <td>{{ item.Posnr }}</td>
+          <td>{{ item.Matnr }}</td>
+          <td>{{ item.Arktx }}</td>
+          <td>{{ item.Lfart }}</td>
+          <td>{{ item.Lfdat }}</td>
+          <td>{{ item.Kunnr }}</td>
+          <td>{{ item.Vrkmer }}</td>
+          <td>{{ item.Lfimg }}</td>
+          <td>{{ item.Netwr }}</td>
+          <td>{{ item.Waerk }}</td>
+          <td>{{ item.Lgort }}</td>
+          <td>{{ item.Bestk }}</td>
+          <td>{{ item.Gbstk }}</td>
+          <td>{{ item.Vstel }}</td>
+          <td>{{ item.Werks }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- No Data Message -->
+  <div *ngIf="!loading && !errorMessage && displayedData.length === 0" class="no-data-container">
+    <div class="no-data-message">
+      <i class="fas fa-inbox"></i>
+      <p>No delivery records found for this customer.</p>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,59 @@
+<div class="inquiry-container">
+  <div class="inquiry-header">
+    <h2>📋 Inquiry Details</h2>
+    <button class="refresh-btn" (click)="refreshData()" [disabled]="loading">
+      <span *ngIf="!loading">🔄 Refresh</span>
+      <span *ngIf="loading">⏳ Loading...</span>
+    </button>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="loading" class="loading-container">
+    <div class="loader">
+      <div class="spinner"></div>
+      <p>Loading inquiry data...</p>
+    </div>
+  </div>
+
+  <!-- Error Message -->
+  <div *ngIf="errorMessage" class="error-box">
+    <i class="fas fa-exclamation-circle"></i>
+    <span>{{ errorMessage }}</span>
+  </div>
+
+  <!-- Inquiry Card List -->
+  <div *ngIf="!loading && !errorMessage && inquiryData.length > 0" class="card-list">
+    <div *ngFor="let item of inquiryData" class="inquiry-card">
+      <div class="card-header">
+        <span class="inquiry-no">Inquiry #: <b>{{ item.SalesDocNo }}</b></span>
+        <span class="item-no">Item: <b>{{ item.ItemNo }}</b></span>
+      </div>
+      <div class="card-row">
+        <span><strong>Description:</strong> {{ item.Description }}</span>
+      </div>
+      <div class="card-row">
+        <span><strong>Created Date:</strong> {{ item.CreatedDate }}</span>
+        <span><strong>Doc Type:</strong> {{ item.OrderType }}</span>
+      </div>
+      <div class="card-row">
+        <span><strong>Binding Period:</strong> {{ item.EndDate }}</span>
+        <span><strong>Sales Unit:</strong> {{ item.SalesUnit }}</span>
+      </div>
+      <div class="card-row">
+        <span><strong>Quantity:</strong> {{ item.Quantity }}</span>
+        <span><strong>Currency:</strong> {{ item.Currency }}</span>
+      </div>
+      <div class="card-row">
+        <span><strong>Amount:</strong> {{ item.NetValue }}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- No Data Message -->
+  <div *ngIf="!loading && !errorMessage && inquiryData.length === 0" class="no-data-container">
+    <div class="no-data-message">
+      <i class="fas fa-search"></i>
+      <p>No inquiry records found for this customer.</p>
+    </div>
+  </div>
+</div>

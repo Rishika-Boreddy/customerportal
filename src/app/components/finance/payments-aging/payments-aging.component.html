@@ -1,0 +1,63 @@
+<div class="payments-aging-container">
+  <div class="enhanced-header header-controls">
+    <!-- Sorting Controls -->
+    <div class="sort-group">
+      <label for="sortField">Sort by:</label>
+      <select id="sortField" [(ngModel)]="sortFieldModel">
+        <option value="">-- Select Field --</option>
+        <option *ngFor="let field of fields" [value]="field.key">{{ field.label }}</option>
+      </select>
+      <ng-container *ngIf="sortFieldModel">
+        <button class="sort-btn" [class.active]="sortDirection==='asc'" (click)="setSortDirection('asc')">▲</button>
+        <button class="sort-btn" [class.active]="sortDirection==='desc'" (click)="setSortDirection('desc')">▼</button>
+        <button class="reset-btn" (click)="resetSort()">Reset</button>
+      </ng-container>
+    </div>
+    <!-- Filtering Controls -->
+    <div class="filter-group">
+      <label for="filterField">Filter:</label>
+      <select id="filterField" [(ngModel)]="filterFieldModel">
+        <option value="">-- Select Field --</option>
+        <option *ngFor="let field of fields" [value]="field.key">{{ field.label }}</option>
+      </select>
+      <input *ngIf="filterFieldModel" type="text" class="filter-input" placeholder="Enter value..." [(ngModel)]="filterValue" (input)="setFilterValue(filterValue)" />
+      <button *ngIf="filterFieldModel || filterValue" class="reset-btn" (click)="resetFilter()">Clear</button>
+    </div>
+  </div>
+  <h2 class="title">Payments & Aging Details</h2>
+
+  <div #errorDiv class="error-message"></div>
+
+  <table class="payments-aging-table">
+    <thead>
+      <tr>
+        <th>Customer ID</th>
+        <th>Grace Days</th>
+        <th>Bill Date</th>
+        <th>Due Date</th>
+        <th>Payment Date</th>
+        <th>Aging Days</th>
+        <th>Payment Status</th>
+        <th>Last Remainder</th>
+        <th>Collection Agent</th>
+        <th>Currency</th>
+        <th>Remarks</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of displayedData; trackBy: trackByIndex">
+        <td>{{ item.CustomerId }}</td>
+        <td>{{ item.GraceDays }}</td>
+        <td>{{ item.BillDate }}</td>
+        <td>{{ item.DueDate }}</td>
+        <td>{{ item.PaymentDate }}</td>
+        <td>{{ item.AgingDays }}</td>
+        <td>{{ item.PaymentStatus }}</td>
+        <td>{{ item.LastRemainder }}</td>
+        <td>{{ item.CollectionAgent }}</td>
+        <td>{{ item.Currency }}</td>
+        <td>{{ item.Remarks }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,65 @@
+<div class="overall-sales-container">
+  <div class="enhanced-header header-controls">
+    <!-- Sorting Controls -->
+    <div class="sort-group">
+      <label for="sortField">Sort by:</label>
+      <select id="sortField" [(ngModel)]="sortFieldModel">
+        <option value="">-- Select Field --</option>
+        <option *ngFor="let field of fields" [value]="field.key">{{ field.label }}</option>
+      </select>
+      <ng-container *ngIf="sortFieldModel">
+        <button class="sort-btn" [class.active]="sortDirection==='asc'" (click)="setSortDirection('asc')">▲</button>
+        <button class="sort-btn" [class.active]="sortDirection==='desc'" (click)="setSortDirection('desc')">▼</button>
+        <button class="reset-btn" (click)="resetSort()">Reset</button>
+      </ng-container>
+    </div>
+    <!-- Filtering Controls -->
+    <div class="filter-group">
+      <label for="filterField">Filter:</label>
+      <select id="filterField" [(ngModel)]="filterFieldModel">
+        <option value="">-- Select Field --</option>
+        <option *ngFor="let field of fields" [value]="field.key">{{ field.label }}</option>
+      </select>
+      <input *ngIf="filterFieldModel" type="text" class="filter-input" placeholder="Enter value..." [(ngModel)]="filterValue" (input)="setFilterValue(filterValue)" />
+      <button *ngIf="filterFieldModel || filterValue" class="reset-btn" (click)="resetFilter()">Clear</button>
+    </div>
+  </div>
+  <h2>Overall Sales Data</h2>
+
+  <div #errorDiv class="error-message"></div>
+
+  <table class="overall-sales-table">
+    <thead>
+      <tr>
+        <th>Customer ID</th>
+        <th>Sales Doc Type</th>
+        <th>Order Date</th>
+        <th>Material No</th>
+        <th>Material Desc</th>
+        <th>Sales Unit</th>
+        <th>Doc Currency</th>
+        <th>Item No</th>
+        <th>Bill Item</th>
+        <th>Bill Doc No</th>
+        <th>Bill Date</th>
+        <th>Bill Type</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of displayedData; trackBy: trackByIndex">
+        <td>{{ item.CustomerId }}</td>
+        <td>{{ item.SalesDocType }}</td>
+        <td>{{ item.OrderDat }}</td>
+        <td>{{ item.MatNo }}</td>
+        <td>{{ item.MatDes }}</td>
+        <td>{{ item.SalesUnit }}</td>
+        <td>{{ item.DocCurr }}</td>
+        <td>{{ item.ItemNo }}</td>
+        <td>{{ item.BillItem }}</td>
+        <td>{{ item.BillDocNo }}</td>
+        <td>{{ item.BillDat }}</td>
+        <td>{{ item.BillType }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

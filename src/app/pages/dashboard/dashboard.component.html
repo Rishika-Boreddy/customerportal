@@ -1,0 +1,62 @@
+<div class="dashboard-container" [@slideIn]>
+  <aside class="sidebar">
+    <!-- Profile section -->
+    <div class="profile-section">
+      <img src="https://i.pinimg.com/736x/c1/f6/3a/c1f63a105cd09ac494907045aa30d4f7.jpg" alt="Profile" class="profile-image" />
+      <h4 class="profile-name">Welcome Back!</h4>
+      <p class="customer-id">Customer ID: {{ customerId }}</p>
+    </div>
+
+    <!-- Main Nav Buttons -->
+    <button [class.active]="activeSection === 'profile'" (click)="setActiveSection('profile')">👤 Profile</button>
+
+    <!-- Sales toggle -->
+    <button (click)="toggleSales()" [class.active]="activeSection === 'sales'">📦 Sales ▾</button>
+    <div *ngIf="showSales" class="submenu">
+      <button (click)="setSalesSubSection('inquiry')">🧾 Inquiry</button>
+      <button (click)="setSalesSubSection('sales-order')">📝 Sales Order</button>
+      <button (click)="setSalesSubSection('delivery')">🚚 Delivery</button>
+    </div>
+
+    <!-- Finance toggle -->
+    <button (click)="toggleFinance()" [class.active]="activeSection === 'finance'">💰 Finance ▾</button>
+    <div *ngIf="showFinance" class="submenu">
+      <button (click)="setFinanceSubSection('invoice')">🧾 Invoice</button>
+      <button (click)="setFinanceSubSection('credit-debit')">🔁 Credit/Debit Memo</button>
+      <button (click)="setFinanceSubSection('overall')">📊 Overall Sales</button>
+      <button (click)="setFinanceSubSection('aging')">⏳ Payment Aging</button>
+    </div>
+
+    <!-- Logout -->
+    <button class="logout-btn" (click)="logout()">🚪 Logout</button>
+  </aside>
+
+  <main class="main-content">
+    <!-- Profile -->
+    <div *ngIf="activeSection === 'profile'" class="section-wrapper">
+      <h2>👤 Customer Profile</h2>
+      <app-customer-profile></app-customer-profile>
+    </div>
+
+    <!-- Sales -->
+    <div *ngIf="activeSection === 'sales'" class="section-wrapper">
+      <h2>📦 Sales</h2>
+      <div class="sales-grid">
+        <app-inquiry *ngIf="salesSubSection === 'inquiry'"></app-inquiry>
+        <app-sales-order *ngIf="salesSubSection === 'sales-order'"></app-sales-order>
+        <app-delivery *ngIf="salesSubSection === 'delivery'"></app-delivery>
+      </div>
+    </div>
+
+    <!-- Finance -->
+    <div *ngIf="activeSection === 'finance'" class="section-wrapper">
+      <h2>💰 Finance</h2>
+      <div class="finance-grid">
+        <app-invoice *ngIf="financeSubSection === 'invoice'"></app-invoice>
+        <app-credit-debit-memo *ngIf="financeSubSection === 'credit-debit'"></app-credit-debit-memo>
+        <app-overall-sales *ngIf="financeSubSection === 'overall'"></app-overall-sales>
+        <app-payments-aging *ngIf="financeSubSection === 'aging'"></app-payments-aging>
+      </div>
+    </div>
+  </main>
+</div>

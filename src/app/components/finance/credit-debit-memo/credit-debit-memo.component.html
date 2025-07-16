@@ -1,0 +1,61 @@
+<div class="memo-container">
+  <div class="enhanced-header header-controls">
+    <!-- Sorting Controls -->
+    <div class="sort-group">
+      <label for="sortField">Sort by:</label>
+      <select id="sortField" [(ngModel)]="sortFieldModel">
+        <option value="">-- Select Field --</option>
+        <option *ngFor="let field of fields" [value]="field.key">{{ field.label }}</option>
+      </select>
+      <ng-container *ngIf="sortFieldModel">
+        <button class="sort-btn" [class.active]="sortDirection==='asc'" (click)="setSortDirection('asc')">▲</button>
+        <button class="sort-btn" [class.active]="sortDirection==='desc'" (click)="setSortDirection('desc')">▼</button>
+        <button class="reset-btn" (click)="resetSort()">Reset</button>
+      </ng-container>
+    </div>
+    <!-- Filtering Controls -->
+    <div class="filter-group">
+      <label for="filterField">Filter:</label>
+      <select id="filterField" [(ngModel)]="filterFieldModel">
+        <option value="">-- Select Field --</option>
+        <option *ngFor="let field of fields" [value]="field.key">{{ field.label }}</option>
+      </select>
+      <input *ngIf="filterFieldModel" type="text" class="filter-input" placeholder="Enter value..." [(ngModel)]="filterValue" (input)="setFilterValue(filterValue)" />
+      <button *ngIf="filterFieldModel || filterValue" class="reset-btn" (click)="resetFilter()">Clear</button>
+    </div>
+  </div>
+  <h2>🧾 Credit / Debit Memo</h2>
+
+  <div #errorDiv class="error-message"></div>
+
+  <table class="memo-table">
+    <thead>
+      <tr>
+        <th>Bill Doc No</th>
+        <th>Type</th>
+        <th>Date</th>
+        <th>Sales Org</th>
+        <th>Customer ID</th>
+        <th>Net Value</th>
+        <th>Currency</th>
+        <th>Material No</th>
+        <th>Quantity</th>
+        <th>Sales Unit</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of displayedData; trackBy: trackByIndex">
+        <td>{{ item.BillDocNo }}</td>
+        <td>{{ item.BillType }}</td>
+        <td>{{ item.BillDate }}</td>
+        <td>{{ item.SalesOrg }}</td>
+        <td>{{ item.CustomerId }}</td>
+        <td>{{ item.NetVal }}</td>
+        <td>{{ item.Currency }}</td>
+        <td>{{ item.MatNo }}</td>
+        <td>{{ item.Quantity }}</td>
+        <td>{{ item.SalesUnit }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

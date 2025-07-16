@@ -1,0 +1,84 @@
+<div class="invoice-container">
+  <h2>Invoice PDF Viewer</h2>
+
+  <form (ngSubmit)="fetchInvoicePdf()" class="invoice-form">
+    <input
+      type="text"
+      placeholder="Invoice Number (vbeln)"
+      [(ngModel)]="vbeln"
+      name="vbeln"
+      required
+    />
+    <input
+      type="text"
+      placeholder="Item Number (posnr)"
+      [(ngModel)]="posnr"
+      name="posnr"
+      required
+    />
+    <button type="submit" [disabled]="loading">
+      {{ loading ? 'Loading...' : 'Fetch PDF' }}
+    </button>
+  </form>
+
+  <div *ngIf="errorMessage" class="error-message">
+    {{ errorMessage }}
+  </div>
+
+  <div *ngIf="pdfUrl" class="pdf-preview">
+    <iframe [src]="pdfUrl" width="100%" height="600px"></iframe>
+    <div class="warning" style="margin-top:10px; color:#b30000;">
+      <strong>Note:</strong> If the PDF preview does not appear, please download and open it in <b>Adobe Reader</b>. Most browsers cannot display dynamic Adobe forms.
+    </div>
+    <button (click)="downloadPdf()" class="download-btn">Download PDF</button>
+  </div>
+</div>
+
+<style>
+.invoice-container {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 24px;
+  background: #fffbe6;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px #e0c97f;
+}
+.invoice-form {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.invoice-form input {
+  flex: 1;
+  padding: 8px;
+  border-radius: 5px;
+  border: 1px solid #e0c97f;
+}
+.invoice-form button {
+  padding: 8px 16px;
+  border-radius: 5px;
+  background: #f5b301;
+  color: #fff;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+}
+.error-message {
+  color: #b30000;
+  margin-bottom: 12px;
+}
+.pdf-preview {
+  margin-top: 24px;
+  text-align: center;
+}
+.download-btn {
+  margin-top: 12px;
+  padding: 8px 20px;
+  background: #4caf50;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+}
+</style>

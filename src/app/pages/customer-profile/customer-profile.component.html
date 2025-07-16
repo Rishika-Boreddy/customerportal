@@ -1,0 +1,96 @@
+<div class="profile-container" [@fadeIn] *ngIf="!loading && customer">
+  <div class="glass-card main-info">
+    <div class="profile-header">
+      <div class="profile-image-container">
+        <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="Profile" class="profile-image">
+        <div class="status-badge">Active</div>
+      </div>
+      <div class="profile-title">
+        <h1>{{ customer.Name1 }} {{ customer.Name2 || '' }}</h1>
+        <p class="customer-number">Customer ID: {{ customer.CustomerId }}</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="cards-grid">
+    <div class="glass-card info-card">
+      <div class="card-header">
+        <i class="fas fa-user"></i>
+        <h2>Basic Information</h2>
+      </div>
+      <div class="card-content">
+        <div class="info-item">
+          <span class="label">Company Name</span>
+          <span class="value">{{ customer.Name1 || 'N/A' }}</span>
+        </div>
+        <div class="info-item">
+          <span class="label">Secondary Name</span>
+          <span class="value">{{ customer.Name2 || 'N/A' }}</span>
+        </div>
+        <div class="info-item">
+          <span class="label">Phone Number</span>
+          <span class="value">{{ customer.Phone || 'N/A' }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="glass-card info-card">
+      <div class="card-header">
+        <i class="fas fa-map-marker-alt"></i>
+        <h2>Location Details</h2>
+      </div>
+      <div class="card-content">
+        <div class="info-item">
+          <span class="label">Country</span>
+          <span class="value">{{ customer.Country || 'N/A' }}</span>
+        </div>
+        <div class="info-item">
+          <span class="label">Region</span>
+          <span class="value highlight">SAP Region</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="glass-card info-card">
+      <div class="card-header">
+        <i class="fas fa-id-card"></i>
+        <h2>Account Details</h2>
+      </div>
+      <div class="card-content">
+        <div class="info-item">
+          <span class="label">Client Number</span>
+          <span class="value">{{ customer.Mandt || 'N/A' }}</span>
+        </div>
+        <div class="info-item">
+          <span class="label">Account Status</span>
+          <span class="value status-active">
+            <span class="status-dot"></span>
+            Active
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="action-buttons">
+    <button class="refresh-btn" (click)="refreshProfile()">
+      <i class="fas fa-sync-alt"></i>
+      Refresh Data
+    </button>
+  </div>
+</div>
+
+<div class="loading-container" *ngIf="loading">
+  <div class="loader">
+    <div class="spinner"></div>
+    <p>Loading your profile...</p>
+  </div>
+</div>
+
+<div class="error-container" *ngIf="error">
+  <div class="error-message">
+    <i class="fas fa-exclamation-circle"></i>
+    <p>{{ error }}</p>
+    <button (click)="refreshProfile()">Try Again</button>
+  </div>
+</div>

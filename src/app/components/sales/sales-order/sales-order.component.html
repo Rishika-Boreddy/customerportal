@@ -1,0 +1,90 @@
+<div class="sales-order-container">
+  <div class="sales-order-header enhanced-header">
+    <h2>📋 Sales Order Details</h2>
+    <div class="header-controls">
+      <!-- Sorting Controls -->
+      <div class="sort-group">
+        <label for="sortField">Sort by:</label>
+        <select id="sortField" [(ngModel)]="sortFieldModel">
+          <option value="">-- Select Field --</option>
+          <option *ngFor="let field of fields" [value]="field.key">{{ field.label }}</option>
+        </select>
+        <ng-container *ngIf="sortFieldModel">
+          <button class="sort-btn" [class.active]="sortDirection==='asc'" (click)="setSortDirection('asc')">▲</button>
+          <button class="sort-btn" [class.active]="sortDirection==='desc'" (click)="setSortDirection('desc')">▼</button>
+          <button class="reset-btn" (click)="resetSort()">Reset</button>
+        </ng-container>
+      </div>
+      <!-- Filtering Controls -->
+      <div class="filter-group">
+        <label for="filterField">Filter:</label>
+        <select id="filterField" [(ngModel)]="filterFieldModel">
+          <option value="">-- Select Field --</option>
+          <option *ngFor="let field of fields" [value]="field.key">{{ field.label }}</option>
+        </select>
+        <input *ngIf="filterFieldModel" type="text" class="filter-input" placeholder="Enter value..." [(ngModel)]="filterValue" (input)="setFilterValue(filterValue)" />
+        <button *ngIf="filterFieldModel || filterValue" class="reset-btn" (click)="resetFilter()">Clear</button>
+      </div>
+      <button class="refresh-btn" (click)="refreshData()" [disabled]="loading">
+        <span *ngIf="!loading">🔄 Refresh</span>
+        <span *ngIf="loading">⏳ Loading...</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="loading" class="loading-container">
+    <div class="loader">
+      <div class="spinner"></div>
+      <p>Loading sales order data...</p>
+    </div>
+  </div>
+
+  <!-- Error Message -->
+  <div *ngIf="errorMessage" class="error">
+    <i class="fas fa-exclamation-circle"></i>
+    <span>{{ errorMessage }}</span>
+  </div>
+
+  <!-- Sales Orders Cards -->
+  <div *ngIf="!loading && !errorMessage && displayedOrders.length > 0" class="card-list">
+    <div *ngFor="let item of displayedOrders; trackBy: trackByIndex" class="sales-card">
+      <h3>Order #: {{ item.SalesDoc }} | Item: {{ item.ItemNo }}</h3>
+      <div class="card-row">
+        <span><strong>Material No:</strong> {{ item.MaterialNo }}</span>
+        <span><strong>Description:</strong> {{ item.Description }}</span>
+      </div>
+      <div class="card-row">
+        <span><strong>Type:</strong> {{ item.SalesType }}</span>
+        <span><strong>Created On:</strong> {{ item.CreatedOn }}</span>
+      </div>
+      <div class="card-row">
+        <span><strong>Quantity:</strong> {{ item.Quantity }}</span>
+        <span><strong>Unit:</strong> {{ item.SalesUnit }}</span>
+      </div>
+      <div class="card-row">
+        <span><strong>Net Value:</strong> {{ item.NetValue }} {{ item.Currency }}</span>
+        <span><strong>Division:</strong> {{ item.Division }}</span>
+      </div>
+      <div class="card-row">
+        <span><strong>PO No:</strong> {{ item.PurchaseOrder }}</span>
+      </div>
+      <div class="card-row">
+        <span><strong>Delivery Date:</strong> {{ item.DeliveryDate }}</span>
+        <span><strong>Billing Status:</strong> {{ item.ConfirmStatus }}</span>
+        <span><strong>Delivery Status:</strong> {{ item.DeliveryStatus }}</span>
+      </div>
+      <div class="card-row">
+        <span><strong>Storage Location:</strong> {{ item.StorageLoc || '-' }}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- No Data Message -->
+  <div *ngIf="!loading && !errorMessage && displayedOrders.length === 0" class="no-data-container">
+    <div class="no-data-message">
+      <i class="fas fa-file-invoice"></i>
+      <p>No sales order records found for this customer.</p>
+    </div>
+  </div>
+</div>

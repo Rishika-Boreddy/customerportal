@@ -1,0 +1,13 @@
+<h2>Finance Section</h2>
+
+<!-- Tab Buttons -->
+<button (click)="activeTab = 'invoice'" [class.active]="activeTab === 'invoice'">Invoice</button>
+<button (click)="activeTab = 'payments'" [class.active]="activeTab === 'payments'">Payments & Aging</button>
+<button (click)="activeTab = 'credit-debit'" [class.active]="activeTab === 'credit-debit'">Credit/Debit Memo</button>
+<button (click)="activeTab = 'overall'" [class.active]="activeTab === 'overall'">Overall Sales</button>
+
+<!-- Conditional Views -->
+<app-invoice *ngIf="activeTab === 'invoice'"></app-invoice>
+<app-payments-aging *ngIf="activeTab === 'payments'"></app-payments-aging>
+<app-credit-debit-memo *ngIf="activeTab === 'credit-debit'"></app-credit-debit-memo>
+<app-overall-sales *ngIf="activeTab === 'overall'"></app-overall-sales>

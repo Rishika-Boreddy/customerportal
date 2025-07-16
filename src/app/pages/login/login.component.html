@@ -1,0 +1,54 @@
+<div class="login-wrapper" [@fadeIn]>
+  <!-- Left side with illustration -->
+  <div class="login-left">
+    <img
+      src="https://i.pinimg.com/1200x/e5/94/5c/e5945cc99bb9abb55fbcbb099e7d414a.jpg"
+      alt="illustration"
+      class="login-illustration"
+    />
+  </div>
+
+  <!-- Right side with form -->
+  <div class="login-right">
+    <h1>CUSTOMER LOGIN</h1>
+    <h2>Welcome Back!</h2>
+
+    <!-- Error Message Display -->
+    <div *ngIf="errorMessage" class="error-message">
+      {{ errorMessage }}
+    </div>
+
+    <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
+      <input
+        type="text"
+        name="customerId"
+        [(ngModel)]="customerId"
+        placeholder="Customer ID"
+        required
+        [disabled]="isLoading"
+      />
+      <input
+        type="password"
+        name="password"
+        [(ngModel)]="password"
+        placeholder="Password"
+        required
+        [disabled]="isLoading"
+      />
+
+      <div class="form-options">
+        <a href="#">Forgot Password?</a>
+      </div>
+
+      <button type="submit" class="login-btn" [disabled]="isLoading">
+        <span *ngIf="!isLoading">Log In</span>
+        <span *ngIf="isLoading">Logging In...</span>
+      </button>
+    </form>
+
+    <div class="bottom-links">
+      <span>Need Help?</span>
+      <br />
+    </div>
+  </div>
+</div>
